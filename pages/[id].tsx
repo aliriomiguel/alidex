@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { usePokemonDetails } from '../hooks/usePokemon';
 import Link from 'next/link';
@@ -28,6 +27,9 @@ const getTypeColor = (type: string) => {
 
   return typeColors[type] || '#FFFFFF'; 
 };
+interface Type {
+  type: { name: string };
+}
 
 const filterGenerations = (generations: Record<string, Record<string, any>>) => {
   const filteredGenerations: Record<string, Record<string, any>> = {};
@@ -55,15 +57,16 @@ const PokemonPage = () => {
   const filteredGenerations = filterGenerations(data?.generations || {});
   const generationsText = Object.keys(filteredGenerations).join(', ') || 'No valid generations data available';
 
+  if (!id) return <p>Invalid Pokémon ID</p>;
   if (isLoading) return <p>Loading...</p>;
 
-  const types = data?.types.map((t: any) => t.type.name) || [];
+  const types = data?.types.map((t: Type) => t.type.name) || [];
   const typeColors = types.map((type) => getTypeColor(type));
   const gradientBackground =
     typeColors.length > 1
       ? `linear-gradient(135deg, ${typeColors.join(', ')})`
       : typeColors[0];
-  const generations = data?.generations ? Object.keys(data.generations).join(', ') : 'No generations data available';
+  //const generations = data?.generations ? Object.keys(data.generations).join(', ') : 'No generations data available';
 
   const renderEvolutionChain = (chain: { id: number; name: string; image: string }[]) => {
     if (!chain || chain.length === 0) return <p>No evolution data available</p>;
