@@ -41,4 +41,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
+You can check the vercel deployment here
+https://alidex.vercel.app/
+
+gg
+wp
+:D
 
